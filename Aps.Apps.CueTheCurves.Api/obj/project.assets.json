@@ -10059,11 +10059,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves\\Aps.Apps.CueTheCurves.Api\\Aps.Apps.CueTheCurves.Api.csproj",
+      "projectUniqueName": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves.Api\\Aps.Apps.CueTheCurves.Api.csproj",
       "projectName": "Aps.Apps.CueTheCurves.Api",
-      "projectPath": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves\\Aps.Apps.CueTheCurves.Api\\Aps.Apps.CueTheCurves.Api.csproj",
+      "projectPath": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves.Api\\Aps.Apps.CueTheCurves.Api.csproj",
       "packagesPath": "C:\\Users\\tajrishi\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves\\Aps.Apps.CueTheCurves.Api\\obj\\",
+      "outputPath": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

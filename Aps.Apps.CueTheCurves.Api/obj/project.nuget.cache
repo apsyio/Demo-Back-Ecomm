@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mMX83qmSkkaalCMsMcYuUYBhLMXqbvwpXgTXfYTw0ndDrcAynt/ZOLtiNy9g4/GyeMPwJ3dXmEWBv/R9C0u5dA==",
+  "dgSpecHash": "xDp0dmswcjbFGcuhP7BH0wVBL09yLeqcksjHBCTMjpxolUsmVCeRUIZ9wYuPSuwLshkTmaLuZjbbfiXF3R4bmA==",
   "success": true,
-  "projectFilePath": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves\\Aps.Apps.CueTheCurves.Api\\Aps.Apps.CueTheCurves.Api.csproj",
+  "projectFilePath": "D:\\Projects\\Apsaaz\\Cue the Curves\\Aps.Apps.CueTheCurves.Api\\Aps.Apps.CueTheCurves.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tajrishi\\.nuget\\packages\\appstagram.base\\1.0.1\\appstagram.base.1.0.1.nupkg.sha512",
     "C:\\Users\\tajrishi\\.nuget\\packages\\appstagram.social\\1.0.1\\appstagram.social.1.0.1.nupkg.sha512",

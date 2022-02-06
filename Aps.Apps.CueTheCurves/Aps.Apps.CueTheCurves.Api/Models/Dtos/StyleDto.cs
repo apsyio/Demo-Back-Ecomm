@@ -1,0 +1,18 @@
+﻿using Appstagram.Base.Models.Dtos;
+using Aps.Apps.CueTheCurves.Api.Models.Entities;
+using System.Collections.Generic;
+
+namespace Aps.Apps.CueTheCurves.Api.Models.Dtos
+{
+    public class StyleDto : DtoDef
+    {
+        public string Name { get; set; }
+        public string Thumbnail { get; set; }
+        public List<string> Colors { get; set; }
+        public List<string> Photos { get; set; }
+        public int LikesCount { get; set; }
+        public bool Liked { get; set; }
+        public List<Users> Inspos { get; set; } = new List<Users>();
+        public List<Brands> Brands { get; set; } = new List<Brands>();
+    }
+}

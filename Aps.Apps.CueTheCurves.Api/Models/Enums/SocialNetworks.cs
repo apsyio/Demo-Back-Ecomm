@@ -2,6 +2,6 @@
 {
     public enum SocialNetworks
     {
-        Facebook, Instagram, Google, TikTok
+        Facebook, Instagram, Google, TikTok, Pinterest
     }
 }

@@ -13,70 +13,70 @@ namespace Aps.Apps.CueTheCurves.Api.Shared
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
-#line 1 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 1 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using System.Net.Http;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 2 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 2 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Microsoft.AspNetCore.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 3 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 3 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Microsoft.AspNetCore.Components.Authorization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 4 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 4 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Microsoft.AspNetCore.Components.Forms;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 5 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 5 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Microsoft.AspNetCore.Components.Routing;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 6 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 6 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 7 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 7 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 8 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 8 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Microsoft.JSInterop;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 9 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 9 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Aps.Apps.CueTheCurves.Api;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
-#line 10 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
+#line 10 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\_Imports.razor"
 using Aps.Apps.CueTheCurves.Api.Shared;
 
 #line default
@@ -90,7 +90,7 @@ using Aps.Apps.CueTheCurves.Api.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 12 "C:\Sadeq\Projects\Apsaaz\Cue On Curves\Aps.Apps.CueTheCurves.Api\Shared\SurveyPrompt.razor"
+#line 12 "D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\Shared\SurveyPrompt.razor"
        
     // Demonstrates how a parent component can supply parameters
     [Parameter]

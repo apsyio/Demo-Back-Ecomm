@@ -1,5 +1,4 @@
 ﻿using Appstagram.Base.Models.Inputs;
-using Aps.Apps.CueTheCurves.Api.Models.Entities;
 using Aps.Apps.CueTheCurves.Api.Models.Enums;
 using System.Collections.Generic;
 

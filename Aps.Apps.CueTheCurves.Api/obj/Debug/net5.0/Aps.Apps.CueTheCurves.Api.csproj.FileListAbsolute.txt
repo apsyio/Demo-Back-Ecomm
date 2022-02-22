@@ -403,3 +403,5 @@ D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\obj\Debug\net5.0\Aps
 D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\obj\Debug\net5.0\ref\Aps.Apps.CueTheCurves.Api.dll
 D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\obj\Debug\net5.0\Aps.Apps.CueTheCurves.Api.pdb
 D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\obj\Debug\net5.0\Aps.Apps.CueTheCurves.Api.genruntimeconfig.cache
+D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\bin\Debug\net5.0\SendGrid.dll
+D:\Projects\Apsaaz\Cue the Curves\Aps.Apps.CueTheCurves.Api\bin\Debug\net5.0\StarkbankEcdsa.dll

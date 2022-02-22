@@ -25,6 +25,28 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             this.userRepo = userRepo;
         }
 
+        public ResponseBase DeactiveUser(Users user)
+        {
+            user.IsDeleted = true;
+            Update(user);
+            return ResponseBase.Success();
+        }
+
+        public override ResponseBase<Users> Add(Users user)
+        {
+            var deactivatedUser = userRepo.Where<Users>(a => a.Email == user.Email && a.IsDeleted).FirstOrDefault();
+            if(deactivatedUser != null)
+            {
+                deactivatedUser.IsDeleted = false;
+                return Update(deactivatedUser);
+            }
+            else
+            {
+                return base.Add(user);
+            }
+
+        }
+
         public ResponseBase<UserDto> GetInspo(int inspoId)
         {
             TypeAdapterConfig<Users, UserDto>

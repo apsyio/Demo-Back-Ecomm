@@ -1,5 +1,4 @@
-﻿using Appstagram.Base.Attributes;
-using Appstagram.Social.Models.Entities;
+﻿using Appstagram.Social.Models.Entities;
 using Aps.Apps.CueTheCurves.Api.Models.Enums;
 using System.Collections.Generic;
 

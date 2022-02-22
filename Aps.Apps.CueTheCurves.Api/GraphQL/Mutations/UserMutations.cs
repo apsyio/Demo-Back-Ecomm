@@ -5,7 +5,11 @@ using Aps.Apps.CueTheCurves.Api.Models.Inputs;
 using Aps.Apps.CueTheCurves.Api.Services.Contracts;
 using HotChocolate;
 using HotChocolate.Types;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -55,6 +59,48 @@ namespace Aps.Apps.CueTheCurves.Api.GraphQL.Mutations
             if (user == null) return ResponseBase<Users>.Failure(ResponseStatus.USER_NOT_FOUND);
             input.Id = user.Id;
             return userService.Update(input);
+        }
+
+        [GraphQLName("user_deactive")]
+        public ResponseBase DeactiveUser(ClaimsPrincipal claims, [Service] IUserService userService)
+        {
+            if (!claims.Identity.IsAuthenticated) return ResponseBase.Failure(ResponseStatus.AUTHENTICATION_FAILED);
+            var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
+            if (user == null) return ResponseBase.Failure(ResponseStatus.USER_NOT_FOUND);
+            return userService.DeactiveUser(user);
+        }
+
+        [GraphQLName("user_support")]
+        public ResponseBase Support(ClaimsPrincipal claims, EmailInput email, [Service] IConfiguration configuration)
+        {
+            if (!claims.Identity.IsAuthenticated) return ResponseBase.Failure(ResponseStatus.AUTHENTICATION_FAILED);
+            var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
+            if (user == null) return ResponseBase.Failure(ResponseStatus.USER_NOT_FOUND);
+            try
+            {
+                var sendgridConfig = configuration.GetSection("SendGridConfig").Get<SendGridConfig>();
+                var client = new SendGridClient(sendgridConfig.ApiKey);
+                var from = new EmailAddress(sendgridConfig.EmailFrom, "");
+                var to = new EmailAddress(sendgridConfig.EmailTo, "");
+                var msg = MailHelper.CreateSingleEmail(from, to, email.Subject, email.PlainTextContent, email.HtmlContent);
+                var response = client.SendEmailAsync(msg).ConfigureAwait(false).GetAwaiter().GetResult();
+
+                if (response.IsSuccessStatusCode)
+                    return ResponseBase.Success();
+                else
+                    return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
+            }
+            catch (Exception)
+            {
+                return ResponseBase.Failure(ResponseStatus.NOT_ALLOWED);
+            }
+        }
+
+        class SendGridConfig
+        {
+            public string ApiKey { get; set; }
+            public string EmailFrom { get; set; }
+            public string EmailTo { get; set; }
         }
     }
 }

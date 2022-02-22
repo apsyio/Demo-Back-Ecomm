@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -24,14 +23,14 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 var externalId = httpContext.User.FindFirstValue("user_id");
 
                 var user = userRepo.GetByExternalId(externalId);
-
                 var claims = new List<Claim>
-                    {
-                        new Claim("user", JsonConvert.SerializeObject(user))
-                    };
+                {
+                    new Claim("user", user.IsDeleted ? "" : JsonConvert.SerializeObject(user))
+                };
 
                 var appIdentity = new ClaimsIdentity(claims);
                 httpContext.User.AddIdentity(appIdentity);
+                
             }
 
             await _next(httpContext);

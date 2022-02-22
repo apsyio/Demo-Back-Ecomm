@@ -14,5 +14,6 @@ namespace Aps.Apps.CueTheCurves.Api.Services.Contracts
         ListResponseBase<Users> GetSelectedInspos(Users user);
         ListResponseBase<Users> GetInspos(Users user, bool isCommon, bool isRandom);
         ResponseBase<UserDto> GetInspo(int inspoId);
+        ResponseBase DeactiveUser(Users user);
     }
 }

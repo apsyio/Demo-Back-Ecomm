@@ -25,7 +25,7 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 var user = userRepo.GetByExternalId(externalId);
                 var claims = new List<Claim>
                 {
-                    new Claim("user", user.IsDeleted ? "" : JsonConvert.SerializeObject(user))
+                    new Claim("user", user is null ? "" : user.IsDeleted ? "" : JsonConvert.SerializeObject(user))
                 };
 
                 var appIdentity = new ClaimsIdentity(claims);

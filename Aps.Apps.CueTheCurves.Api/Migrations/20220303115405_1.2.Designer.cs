@@ -4,14 +4,16 @@ using Aps.Apps.CueTheCurves.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Aps.Apps.CueTheCurves.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220303115405_1.2")]
+    partial class _12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,11 +98,11 @@ namespace Aps.Apps.CueTheCurves.Api.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("XCoordinate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("XCoordinate")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("YCoordinate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("YCoordinate")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

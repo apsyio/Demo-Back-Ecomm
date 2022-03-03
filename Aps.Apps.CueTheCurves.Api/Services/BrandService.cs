@@ -4,6 +4,7 @@ using Appstagram.Base.Models.Inputs;
 using Appstagram.Base.Services;
 using Aps.Apps.CueTheCurves.Api.Models.Dtos;
 using Aps.Apps.CueTheCurves.Api.Models.Entities;
+using Aps.Apps.CueTheCurves.Api.Models.Enums;
 using Aps.Apps.CueTheCurves.Api.Repositories.Contracts;
 using Aps.Apps.CueTheCurves.Api.Services.Contracts;
 using Mapster;
@@ -28,7 +29,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             TypeAdapterConfig<Brands, BrandDto>
                 .NewConfig()
                 .Map(dest => dest.Styles, src => src.StyleBrands.Select(a => a.Style).ToList())
-                .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User).ToList())
+                .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User).Where(a => a.AccountType == AccountTypes.PUBLIC).ToList())
                 ;
 
             var result = brandRepository.GetDbSet()
@@ -43,7 +44,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 .NewConfig()
                 .Map(dest => dest.Liked, src => src.BrandLikes.Any(x => x.UserId == user.Id && x.Liked))
                 .Map(dest => dest.Styles, src => src.StyleBrands.Select(a => a.Style).ToList())
-                .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User));
+                .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User).Where(a => a.AccountType == AccountTypes.PUBLIC));
 
             var result = brandRepository.Where<Brands>(a => a.Id == brandId)
                 .ProjectToType<BrandDto>()
@@ -80,7 +81,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
         public ResponseBase LikeBrand(int userId, int brandId, bool liked)
         {
             bool add = true;
-            var preLike = brandRepository.Where<BrandLikes>(a => a.UserId == userId)
+            var preLike = brandRepository.Where<BrandLikes>(a => a.UserId == userId && a.BrandId == brandId)
                 .FirstOrDefault();
             if (preLike == null)
             {

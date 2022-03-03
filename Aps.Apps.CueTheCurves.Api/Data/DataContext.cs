@@ -84,7 +84,6 @@ namespace Aps.Apps.CueTheCurves.Api.Data
             builder.Entity<ClosetItems>().ToTable(nameof(ClosetItems));
             builder.Entity<Closets>().ToTable(nameof(Closets));
             builder.Entity<PostLikes>().ToTable(nameof(PostLikes));
-            builder.Entity<Sizes>().ToTable(nameof(Sizes));
             builder.Entity<Posts>().ToTable(nameof(Posts));
             builder.Entity<Styles>().ToTable(nameof(Styles));
             builder.Entity<UserSocials>().ToTable(nameof(UserSocials));
@@ -101,7 +100,6 @@ namespace Aps.Apps.CueTheCurves.Api.Data
         public DbSet<Closets> Closets { get; set; }
         public DbSet<PostLikes> PostLikes { get; set; }
         public DbSet<Posts> Posts { get; set; }
-        public DbSet<Sizes> Sizes { get; set; }
         public DbSet<Styles> Styles { get; set; }
         public DbSet<UserSocials> UserSocials { get; set; }
         public DbSet<BrandLikes> BrandLikes { get; set; }

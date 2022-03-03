@@ -3,6 +3,7 @@ using Appstagram.Base.Extensions;
 using Appstagram.Base.Generics.Responses;
 using Aps.Apps.CueTheCurves.Api.Models.Dtos;
 using Aps.Apps.CueTheCurves.Api.Models.Entities;
+using Aps.Apps.CueTheCurves.Api.Models.Enums;
 using Aps.Apps.CueTheCurves.Api.Models.Inputs;
 using Aps.Apps.CueTheCurves.Api.Repositories.Contracts;
 using Aps.Apps.CueTheCurves.Api.Services.Contracts;
@@ -79,7 +80,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 userBrands = userRepo.Where<UserBrands>(a => a.UserId == user.Id)
                     .Select(a => a.BrandId).ToList();
             }
-            var users = userRepo.GetDbSet().AsQueryable();
+            var users = userRepo.GetDbSet().Where(a => !a.IsDeleted && a.AccountType == AccountTypes.PUBLIC);
             if (isCommon)
             {
                 users = users.Where(a => user.UserStyles.Any(x => userStyles.Any(z => z == x.StyleId))

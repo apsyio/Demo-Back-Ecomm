@@ -3,6 +3,7 @@ using Appstagram.Base.Models.Inputs;
 using Appstagram.Base.Services;
 using Aps.Apps.CueTheCurves.Api.Models.Dtos;
 using Aps.Apps.CueTheCurves.Api.Models.Entities;
+using Aps.Apps.CueTheCurves.Api.Models.Enums;
 using Aps.Apps.CueTheCurves.Api.Repositories.Contracts;
 using Aps.Apps.CueTheCurves.Api.Services.Contracts;
 using Mapster;
@@ -28,7 +29,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             TypeAdapterConfig<Styles, StyleDto>
                 .NewConfig()
                 .Map(dest => dest.Liked, src => src.StyleLikes.Any(x => x.UserId == user.Id && x.Liked))
-                .Map(dest => dest.Inspos, src => src.UserStyles.Select(a => a.User))
+                .Map(dest => dest.Inspos, src => src.UserStyles.Select(a => a.User).Where(a => a.AccountType == AccountTypes.PUBLIC))
                 .Map(dest => dest.Brands, src => src.StyleBrands.Select(a => a.Brand))
                 ;
 
@@ -47,7 +48,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
         public ResponseBase LikeStyle(Users user, int styleId, bool liked)
         {
             bool add = true;
-            var preLike = styleRepository.Where<StyleLikes>(a => a.UserId == user.Id)
+            var preLike = styleRepository.Where<StyleLikes>(a => a.UserId == user.Id && a.StyleId == styleId)
                 .FirstOrDefault();
             if(preLike == null)
             {

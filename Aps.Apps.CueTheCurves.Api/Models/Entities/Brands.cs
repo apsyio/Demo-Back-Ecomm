@@ -9,9 +9,7 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Entities
     {
         public string Name { get; set; }
         public string Thumbnail { get; set; }
-        [GraphQLIgnore]
-        [Taggable("sizes", TaggedEntityType = typeof(Sizes))]
-        public long SizeTag { get; set; }
+        public string SizeOffered { get; set; }
         public int LikesCount { get; set; }
         public List<string> Photos { get; set; }
 

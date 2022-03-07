@@ -14,7 +14,7 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Dtos
         public Brands Brand { get; set; }
         public Styles Style { get; set; }
         public PostTypes PostType { get; set; }
-        public double SizeTag { get; set; }
+        public string SizeOffered { get; set; }
         public int PosterId { get; set; }
         public Users Poster { get; set; }
     }

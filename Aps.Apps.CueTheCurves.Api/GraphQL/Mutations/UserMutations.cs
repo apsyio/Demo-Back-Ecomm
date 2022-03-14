@@ -70,6 +70,38 @@ namespace Aps.Apps.CueTheCurves.Api.GraphQL.Mutations
             return userService.DeactiveUser(user);
         }
 
+        [GraphQLName("user_activeUserAdmin")]
+        public ResponseBase ActiveUserAdmin(ClaimsPrincipal claims, [Service] IUserService userService, int userId)
+        {
+            if (!claims.Identity.IsAuthenticated) return ResponseBase.Failure(ResponseStatus.AUTHENTICATION_FAILED);
+            var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
+            if (user == null) return ResponseBase.Failure(ResponseStatus.USER_NOT_FOUND);
+            if (!user.IsAdmin) return ResponseBase.Failure(ResponseStatus.NOT_ALLOWED);
+            return userService.ActiveUserAdmin(userId);
+        }
+
+        [GraphQLName("user_deactiveUserAdmin")]
+        public ResponseBase DeactiveUserAdmin(ClaimsPrincipal claims, [Service] IUserService userService, int userId)
+        {
+            if (!claims.Identity.IsAuthenticated) return ResponseBase.Failure(ResponseStatus.AUTHENTICATION_FAILED);
+            var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
+            if (user == null) return ResponseBase.Failure(ResponseStatus.USER_NOT_FOUND);
+            if (!user.IsAdmin) return ResponseBase.Failure(ResponseStatus.NOT_ALLOWED);
+
+            return userService.DeactiveUserAdmin(userId);
+        }
+
+        [GraphQLName("user_setSelectedInpos")]
+        public ResponseBase SetSelectedInspos(ClaimsPrincipal claims, [Service] IUserService userService, List<int> userIds)
+        {
+            if (!claims.Identity.IsAuthenticated) return ResponseBase.Failure(ResponseStatus.AUTHENTICATION_FAILED);
+            var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
+            if (user == null) return ResponseBase.Failure(ResponseStatus.USER_NOT_FOUND);
+            if (!user.IsAdmin) return ResponseBase.Failure(ResponseStatus.NOT_ALLOWED);
+
+            return userService.SetSelectedInspos(userIds);
+        }
+
         [GraphQLName("user_support")]
         public ResponseBase Support(ClaimsPrincipal claims, EmailInput email, [Service] IConfiguration configuration)
         {

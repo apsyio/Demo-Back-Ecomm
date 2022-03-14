@@ -1,13 +1,16 @@
-﻿using Appstagram.Base.Extensions;
+﻿using Appstagram.Base.Enums;
+using Appstagram.Base.Extensions;
 using Appstagram.Base.Generics.Responses;
 using Appstagram.Base.Models.Inputs;
 using Appstagram.Base.Services;
+using Aps.Apps.CueTheCurves.Api.Data;
 using Aps.Apps.CueTheCurves.Api.Models.Dtos;
 using Aps.Apps.CueTheCurves.Api.Models.Entities;
 using Aps.Apps.CueTheCurves.Api.Models.Enums;
 using Aps.Apps.CueTheCurves.Api.Repositories.Contracts;
 using Aps.Apps.CueTheCurves.Api.Services.Contracts;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +25,46 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             :base(brandRepository)
         {
             this.brandRepository = brandRepository;
+        }
+
+        public override ResponseBase<Brands> Add(Brands entity)
+        {
+            if(brandRepository.Any(a => a.Name == entity.Name))
+            {
+                return ResponseBase<Brands>.Failure(ResponseStatus.ALREADY_EXIST);
+            }
+            return base.Add(entity);
+        }
+
+
+        public ResponseBase ActiveBrand(int brandId)
+        {
+            var brand = brandRepository.GetDbSet<Brands>().IgnoreQueryFilters()
+                .Where(a => a.IsDeleted && a.Id == brandId)
+                .FirstOrDefault();
+            if(brand is null)
+            {
+                return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
+            }
+            brand.IsDeleted = false;
+            var context = brandRepository.GetDbContext();
+            context.Set<Brands>().Update(brand);
+            context.SaveChanges();
+            return ResponseBase.Success();
+        }
+
+        public ResponseBase DeActiveBrand(int brandId)
+        {
+            var brand = brandRepository
+                .Where<Brands>(a => a.Id == brandId)
+                .FirstOrDefault();
+            if (brand is null)
+            {
+                return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
+            }
+            brand.IsDeleted = true;
+            Update(brand);
+            return ResponseBase.Success();
         }
 
         public ListResponseBase<BrandDto> GetAllBrands()
@@ -51,6 +94,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 .FirstOrDefault()
                 ;
 
+            if (result is null) return ResponseBase<BrandDto>.Failure(ResponseStatus.NOT_FOUND);
             return ResponseBase<BrandDto>.Success(result);
         }
 
@@ -112,6 +156,26 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 Update(brand);
             }
             return ResponseBase.Success();
+        }
+
+        public ResponseBase<Brands> UpdateBrand(Brands brand)
+        {
+            if(!brandRepository.Any(a => a.Id == brand.Id))
+            {
+                return ResponseBase<Brands>.Failure(ResponseStatus.NOT_FOUND);
+            }
+
+            var preBrand = brandRepository.GetById(brand.Id);
+            preBrand.Name = string.IsNullOrEmpty(brand.Name) ? preBrand.Name : brand.Name;
+            preBrand.SizeOffered = string.IsNullOrEmpty(brand.SizeOffered) ? preBrand.SizeOffered : brand.SizeOffered;
+            preBrand.Thumbnail = string.IsNullOrEmpty(brand.Thumbnail) ? preBrand.Thumbnail : brand.Thumbnail;
+            preBrand.Photos = brand.Photos is null ? preBrand.Photos : brand.Photos;
+            preBrand.StyleBrands = brand.StyleBrands is null ? preBrand.StyleBrands : brand.StyleBrands;
+
+            var context = brandRepository.GetDbContext();
+            context.Set<Brands>().Update(preBrand);
+            context.SaveChanges();
+            return ResponseBase<Brands>.Success(preBrand);
         }
     }
 }

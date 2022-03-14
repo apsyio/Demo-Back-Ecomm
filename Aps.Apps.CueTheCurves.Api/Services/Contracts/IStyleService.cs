@@ -11,5 +11,8 @@ namespace Aps.Apps.CueTheCurves.Api.Services.Contracts
         ListResponseBase<Styles> GetStyles(Users user = null);
         ResponseBase<StyleDto> GetStyle(Users user, int styleId);
         ResponseBase LikeStyle(Users user, int styleId, bool liked);
+        ResponseBase ActiveStyle(int styleId);
+        ResponseBase DeActiveStyle(int styleId);
+        ResponseBase<Styles> UpdateStyle(Styles styles);
     }
 }

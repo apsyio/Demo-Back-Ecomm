@@ -23,6 +23,16 @@ namespace Aps.Apps.CueTheCurves.Api.GraphQL.Queries
             return ResponseBase<Users>.Success(user);
         }
 
+        [GraphQLName("user_getStats")]
+        public ResponseBase<StatDto> GetStats(ClaimsPrincipal claims, [Service] IUserService userService)
+        {
+            if (!claims.Identity.IsAuthenticated) return ResponseBase<StatDto>.Failure(ResponseStatus.AUTHENTICATION_FAILED);
+            var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
+            if (user == null) return ResponseBase<StatDto>.Failure(ResponseStatus.USER_NOT_FOUND);
+
+            return userService.GetAppStats(user);
+        }
+
         [GraphQLName("user_getStyles")]
         public ListResponseBase<Styles> GetStyles(ClaimsPrincipal claims, [Service] IStyleService styleService)
         {

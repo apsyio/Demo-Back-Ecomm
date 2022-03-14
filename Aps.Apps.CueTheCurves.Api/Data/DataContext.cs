@@ -1,4 +1,6 @@
-﻿using Aps.Apps.CueTheCurves.Api.Models.Entities;
+﻿using Appstagram.Base.Models.Entities;
+using Aps.Apps.CueTheCurves.Api.Extensions;
+using Aps.Apps.CueTheCurves.Api.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
@@ -29,39 +31,42 @@ namespace Aps.Apps.CueTheCurves.Api.Data
                 c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                 c => c.ToList());
 
-            builder.Entity<Styles>()
-                .Property(x => x.Colors)
-                .HasConversion(
-                v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v))
-                .Metadata
-                .SetValueComparer(valueComparer);
+            var valueComparer2 = new ValueComparer<Dictionary<string, List<string>>>(
+                (c1, c2) => c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c);
+
 
             builder.Entity<Styles>()
                 .Property(x => x.Photos)
                 .HasConversion(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v))
+                v => JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(v))
                 .Metadata
-                .SetValueComparer(valueComparer);
+                .SetValueComparer(valueComparer2);
 
             builder.Entity<Brands>()
                 .Property(x => x.Photos)
                 .HasConversion(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<List<string>>(v))
+                v => JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(v))
                 .Metadata
-                .SetValueComparer(valueComparer);
+                .SetValueComparer(valueComparer2);
 
             builder.Entity<PostLikes>()
                 .HasOne(a => a.Post)
                 .WithMany(a => a.Likes)
                 .HasForeignKey(a => a.PostId);
 
+            
+
             List<Type> cascadeTypes = new List<Type>
             {
-                typeof(UserSocials)
+                typeof(UserSocials),
+                typeof(StyleBrands)
             };
+
+            builder.ApplyGlobalFilters<EntityDef>(a => !a.IsDeleted);
 
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {

@@ -4,14 +4,16 @@ using Aps.Apps.CueTheCurves.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Aps.Apps.CueTheCurves.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220313085112_1.5")]
+    partial class _15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -406,9 +408,6 @@ namespace Aps.Apps.CueTheCurves.Api.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("bit");
 
@@ -521,13 +520,13 @@ namespace Aps.Apps.CueTheCurves.Api.Migrations
                     b.HasOne("Aps.Apps.CueTheCurves.Api.Models.Entities.Brands", "Brand")
                         .WithMany("StyleBrands")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Aps.Apps.CueTheCurves.Api.Models.Entities.Styles", "Style")
                         .WithMany("StyleBrands")
                         .HasForeignKey("StyleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Brand");

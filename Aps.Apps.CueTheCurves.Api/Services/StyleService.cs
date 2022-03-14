@@ -1,9 +1,11 @@
-﻿using Appstagram.Base.Generics.Responses;
+﻿using Appstagram.Base.Enums;
+using Appstagram.Base.Generics.Responses;
 using Appstagram.Base.Models.Inputs;
 using Appstagram.Base.Services;
 using Aps.Apps.CueTheCurves.Api.Models.Dtos;
 using Aps.Apps.CueTheCurves.Api.Models.Entities;
 using Aps.Apps.CueTheCurves.Api.Models.Enums;
+using Aps.Apps.CueTheCurves.Api.Models.Inputs;
 using Aps.Apps.CueTheCurves.Api.Repositories.Contracts;
 using Aps.Apps.CueTheCurves.Api.Services.Contracts;
 using Mapster;
@@ -22,6 +24,45 @@ namespace Aps.Apps.CueTheCurves.Api.Services
         {
             this.styleRepository = styleRepository;
             this.userRepository = userRepository;
+        }
+
+        public override ResponseBase<Styles> Add(Styles entity)
+        {
+            if(styleRepository.Any(a => a.Name == entity.Name))
+            {
+                return ResponseBase<Styles>.Failure(ResponseStatus.ALREADY_EXIST);
+            }
+            return base.Add(entity);
+        }
+
+        public ResponseBase ActiveStyle(int styleId)
+        {
+            var style = styleRepository.GetDbSet<Styles>().IgnoreQueryFilters()
+                .Where(a => a.IsDeleted && a.Id == styleId)
+                .FirstOrDefault();
+            if (style is null)
+            {
+                return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
+            }
+            style.IsDeleted = false;
+            var context = styleRepository.GetDbContext();
+            context.Set<Styles>().Update(style);
+            context.SaveChanges();
+            return ResponseBase.Success();
+        }
+
+        public ResponseBase DeActiveStyle(int styleId)
+        {
+            var style = styleRepository
+                .Where<Styles>(a => a.Id == styleId)
+                .FirstOrDefault();
+            if (style is null)
+            {
+                return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
+            }
+            style.IsDeleted = true;
+            Update(style);
+            return ResponseBase.Success();
         }
 
         public ResponseBase<StyleDto> GetStyle(Users user, int styleId)
@@ -79,6 +120,24 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 Update(style);
             }
             return ResponseBase.Success();
+        }
+
+        public ResponseBase<Styles> UpdateStyle(Styles style)
+        {
+            if (!styleRepository.Any(a => a.Id == style.Id))
+            {
+                return ResponseBase<Styles>.Failure(ResponseStatus.NOT_FOUND);
+            }
+
+            var preStyle = styleRepository.GetById(style.Id);
+            preStyle.Name = string.IsNullOrEmpty(style.Name) ? preStyle.Name : style.Name;
+            preStyle.Thumbnail = string.IsNullOrEmpty(style.Thumbnail) ? preStyle.Thumbnail : style.Thumbnail;
+            preStyle.Photos = style.Photos is null ? preStyle.Photos : style.Photos;
+
+            var context = styleRepository.GetDbContext();
+            context.Set<Styles>().Update(preStyle);
+            context.SaveChanges();
+            return ResponseBase<Styles>.Success(preStyle);
         }
     }
 }

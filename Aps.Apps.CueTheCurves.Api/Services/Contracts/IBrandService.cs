@@ -15,5 +15,8 @@ namespace Aps.Apps.CueTheCurves.Api.Services.Contracts
         ResponseBase<BrandDto> GetBrand(Users user, int brandId);
         ListResponseBase<Brands> GetBrands(Users user);
         ResponseBase LikeBrand(int id, int brandId, bool liked);
+        ResponseBase ActiveBrand(int brandId);
+        ResponseBase DeActiveBrand(int brandId);
+        ResponseBase<Brands> UpdateBrand(Brands brands);
     }
 }

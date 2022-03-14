@@ -12,6 +12,7 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Inputs
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Bio { get; set; }
+        public string AvatarUrl { get; set; }
 
         public List<UserSocialInput> Socials { get; set; }
     }

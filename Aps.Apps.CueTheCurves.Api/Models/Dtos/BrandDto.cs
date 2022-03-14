@@ -13,7 +13,7 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Dtos
         public string Thumbnail { get; set; }
         public string SizeOffered { get; set; }
         public int LikesCount { get; set; }
-        public List<string> Photos { get; set; }
+        public Dictionary<string, List<string>> Photos { get; set; }
         public List<Styles> Styles { get; set; }
         public List<Users> Inspos { get; set; }
         public bool Liked { get; set; }

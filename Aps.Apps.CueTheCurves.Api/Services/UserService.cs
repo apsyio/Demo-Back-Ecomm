@@ -35,15 +35,23 @@ namespace Aps.Apps.CueTheCurves.Api.Services
 
         public override ResponseBase<Users> Add(Users user)
         {
-            var deactivatedUser = userRepo.Where<Users>(a => a.Email == user.Email && a.IsDeleted).FirstOrDefault();
-            if(deactivatedUser != null)
+            var preUser = userRepo.GetDbSet<Users>().IgnoreQueryFilters()
+                .Where(a => a.Email == user.Email).FirstOrDefault();
+            if(preUser is null)
             {
-                deactivatedUser.IsDeleted = false;
-                return Update(deactivatedUser);
+                return base.Add(user);
+            }
+            else if(preUser.IsDeleted)
+            {
+                preUser.IsDeleted = false;
+                var context = userRepo.GetDbContext();
+                context.Set<Users>().Update(preUser);
+                context.SaveChanges();
+                return ResponseBase<Users>.Success(preUser);
             }
             else
             {
-                return base.Add(user);
+                return ResponseBase<Users>.Failure(ResponseStatus.ALREADY_EXIST);
             }
 
         }
@@ -93,17 +101,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
 
         public ListResponseBase<Users> GetSelectedInspos(Users user)
         {
-            var userBrands = userRepo.Where<UserBrands>(a => a.UserId == user.Id);
-            var userStyles = userRepo.Where<UserStyles>(a => a.UserId == user.Id);
-            var users = userRepo
-                .Where<Users>(a => a.IsSelected)
-                .Include(a => a.UserBrands)
-                .Include(a => a.UserStyles)
-                .ExcludeRemovedItems().ToList();
-
-            var result = users.Where(a => a.UserBrands.Any(x => userBrands.Any(z => z.BrandId == x.BrandId))
-                || a.UserStyles.Any(z => userStyles.Any(x => x.StyleId == z.StyleId)));
-            return ListResponseBase<Users>.Success(result.AsQueryable());
+            return ListResponseBase<Users>.Success(userRepo.Where<Users>(a => a.IsSelected));
         }
 
         public ResponseBase SetBrands(List<int> brandIds, Users user)
@@ -147,6 +145,56 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 userRepo.AddRange(socials);
             }
             return base.Update(input);
+        }
+
+        public ResponseBase<StatDto> GetAppStats(Users user)
+        {
+            if (!user.IsAdmin)
+            {
+                return ResponseBase<StatDto>.Failure(ResponseStatus.NOT_ALLOWED);
+            }
+
+            var brandsCount = userRepo.GetDbSet<Brands>().Count();
+            var stylesCount = userRepo.GetDbSet<Styles>().Count();
+            var usersCount = userRepo.GetDbSet<Users>().Count();
+
+            return new ResponseBase<StatDto>
+            {
+                Result = new StatDto
+                {
+                    BrandsCount = brandsCount,
+                    StylesCount = stylesCount,
+                    UsersCount = usersCount
+                }
+            };
+        }
+
+        public ResponseBase DeactiveUserAdmin(int userId)
+        {
+            var user = userRepo.GetById(userId);
+            if (!user.IsActive) return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
+            user.IsActive = false;
+            Update(user);
+            return ResponseBase.Success();
+        }
+
+        public ResponseBase ActiveUserAdmin(int userId)
+        {
+            var user = userRepo.GetById(userId);
+            if (user.IsActive) return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
+            user.IsActive = true;
+            Update(user);
+            return ResponseBase.Success();
+        }
+
+        public ResponseBase SetSelectedInspos(List<int> userIds)
+        {
+            var selectedUsers = userRepo.Where<Users>(a => userIds.Contains(a.Id)).ToList();
+            if (selectedUsers.Count() != userIds.Count()) return ResponseBase.Failure(ResponseStatus.DIFFRENET_IDS);
+            userRepo.GetDbContext().Database.ExecuteSqlRaw("UPDATE Users SET IsSelected = 0");
+            selectedUsers.ForEach(a => a.IsSelected = true);
+            userRepo.UpdateRange(selectedUsers);
+            return ResponseBase.Success();
         }
     }
 }

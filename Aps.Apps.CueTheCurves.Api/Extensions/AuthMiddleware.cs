@@ -23,6 +23,11 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 var externalId = httpContext.User.FindFirstValue("user_id");
 
                 var user = userRepo.GetByExternalId(externalId);
+                if (user is not null && !user.IsActive)
+                {
+                    user = null;
+                }
+
                 var claims = new List<Claim>
                 {
                     new Claim("user", user is null ? "" : user.IsDeleted ? "" : JsonConvert.SerializeObject(user))

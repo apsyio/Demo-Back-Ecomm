@@ -14,13 +14,13 @@ namespace Aps.Apps.CueTheCurves.Api.GraphQL.Queries
     public class StyleQueries
     {
         [GraphQLName("styles_getStyles")]
-        public ListResponseBase<Styles> GetStyles(ClaimsPrincipal claims, [Service] IStyleService styleService)
+        public ListResponseBase<Styles> GetStyles(ClaimsPrincipal claims, [Service] IStyleService styleService, bool withRemoved = false)
         {
             if (!claims.Identity.IsAuthenticated) return ListResponseBase<Styles>.Failure(ResponseStatus.AUTHENTICATION_FAILED);
             var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
             if (user == null) return ListResponseBase<Styles>.Failure(ResponseStatus.USER_NOT_FOUND);
 
-            return styleService.GetStyles();
+            return styleService.GetStyles(withRemoved: withRemoved);
         }
 
         [GraphQLName("styles_getStyle")]

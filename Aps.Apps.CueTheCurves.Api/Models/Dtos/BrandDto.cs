@@ -1,7 +1,6 @@
-﻿using Appstagram.Base.Attributes;
-using Appstagram.Base.Models.Dtos;
+﻿using Appstagram.Base.Models.Dtos;
 using Aps.Apps.CueTheCurves.Api.Models.Entities;
-using HotChocolate;
+using System;
 using System.Collections.Generic;
 
 namespace Aps.Apps.CueTheCurves.Api.Models.Dtos
@@ -17,5 +16,8 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Dtos
         public List<Styles> Styles { get; set; }
         public List<Users> Inspos { get; set; }
         public bool Liked { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsDeleted {get; set;}
+
     }
 }

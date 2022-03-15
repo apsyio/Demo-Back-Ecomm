@@ -8,7 +8,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services.Contracts
 {
     public interface IStyleService : IServiceBase<Styles, InputDef>
     {
-        ListResponseBase<Styles> GetStyles(Users user = null);
+        ListResponseBase<Styles> GetStyles(Users user = null, bool withRemoved = false);
         ResponseBase<StyleDto> GetStyle(Users user, int styleId);
         ResponseBase LikeStyle(Users user, int styleId, bool liked);
         ResponseBase ActiveStyle(int styleId);

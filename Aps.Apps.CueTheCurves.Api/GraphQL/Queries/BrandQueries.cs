@@ -35,13 +35,13 @@ namespace Aps.Apps.CueTheCurves.Api.GraphQL.Queries
         }
 
         [GraphQLName("brand_getAllBrands")]
-        public ListResponseBase<BrandDto> GetAllBrands(ClaimsPrincipal claims, [Service] IBrandService brandService)
+        public ListResponseBase<BrandDto> GetAllBrands(ClaimsPrincipal claims, [Service] IBrandService brandService, bool withRemoved = false)
         {
             if (!claims.Identity.IsAuthenticated) return ListResponseBase<BrandDto>.Failure(ResponseStatus.AUTHENTICATION_FAILED);
             var user = JsonConvert.DeserializeObject<Users>(claims.FindFirstValue("user"));
             if (user == null) return ListResponseBase<BrandDto>.Failure(ResponseStatus.USER_NOT_FOUND);
 
-            return brandService.GetAllBrands();
+            return brandService.GetAllBrands(withRemoved);
         }
 
         [GraphQLName("brand_getBrand")]

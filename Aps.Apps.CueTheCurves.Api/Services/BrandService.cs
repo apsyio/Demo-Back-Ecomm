@@ -67,7 +67,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             return ResponseBase.Success();
         }
 
-        public ListResponseBase<BrandDto> GetAllBrands()
+        public ListResponseBase<BrandDto> GetAllBrands(bool withRemoved = false)
         {
             TypeAdapterConfig<Brands, BrandDto>
                 .NewConfig()
@@ -75,10 +75,22 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User).Where(a => a.AccountType == AccountTypes.PUBLIC).ToList())
                 ;
 
-            var result = brandRepository.GetDbSet()
+            if (withRemoved)
+            {
+                var result = brandRepository.GetDbSet().IgnoreQueryFilters()
+                                .ProjectToType<BrandDto>();
+
+                return ListResponseBase<BrandDto>.Success(result);
+            }
+            else
+            {
+                var result = brandRepository.GetDbSet()
                 .ProjectToType<BrandDto>();
 
-            return ListResponseBase<BrandDto>.Success(result);
+                return ListResponseBase<BrandDto>.Success(result);
+            }
+
+            
         }
 
         public ResponseBase<BrandDto> GetBrand(Users user, int brandId)
@@ -165,7 +177,9 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 return ResponseBase<Brands>.Failure(ResponseStatus.NOT_FOUND);
             }
 
-            var preBrand = brandRepository.GetById(brand.Id);
+            var preBrand = brandRepository.Where<Brands>(a => a.Id == brand.Id)
+                .Include(a => a.StyleBrands).FirstOrDefault();
+
             preBrand.Name = string.IsNullOrEmpty(brand.Name) ? preBrand.Name : brand.Name;
             preBrand.SizeOffered = string.IsNullOrEmpty(brand.SizeOffered) ? preBrand.SizeOffered : brand.SizeOffered;
             preBrand.Thumbnail = string.IsNullOrEmpty(brand.Thumbnail) ? preBrand.Thumbnail : brand.Thumbnail;

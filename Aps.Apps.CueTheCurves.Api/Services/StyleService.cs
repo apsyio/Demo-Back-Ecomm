@@ -80,9 +80,20 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             return ResponseBase<StyleDto>.Success(result);
         }
 
-        public ListResponseBase<Styles> GetStyles(Users user = null)
+        public ListResponseBase<Styles> GetStyles(Users user = null, bool isRemoved = false)
         {
-            if (user == null) return ListResponseBase<Styles>.Success(styleRepository.GetDbSet());
+            if (user == null)
+            {
+                if (isRemoved)
+                {
+                    return ListResponseBase<Styles>.Success(styleRepository.GetDbSet().IgnoreQueryFilters());
+                }
+                else
+                {
+                    return ListResponseBase<Styles>.Success(styleRepository.GetDbSet());
+                }
+                
+            }
             return ListResponseBase<Styles>.Success(styleRepository.GetUserStyles(user.Id));
         }
 

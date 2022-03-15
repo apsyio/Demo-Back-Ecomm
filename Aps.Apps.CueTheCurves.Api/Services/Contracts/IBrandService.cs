@@ -11,7 +11,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services.Contracts
     {
         ListResponseBase<Brands> GetBrands(List<int> brandIds = null);
         ResponseBase<Brands> GetRecommendBrand(Users user);
-        ListResponseBase<BrandDto> GetAllBrands();
+        ListResponseBase<BrandDto> GetAllBrands(bool withRemoved = false);
         ResponseBase<BrandDto> GetBrand(Users user, int brandId);
         ListResponseBase<Brands> GetBrands(Users user);
         ResponseBase LikeBrand(int id, int brandId, bool liked);

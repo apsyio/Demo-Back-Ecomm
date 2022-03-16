@@ -63,7 +63,8 @@ namespace Aps.Apps.CueTheCurves.Api.Data
             List<Type> cascadeTypes = new List<Type>
             {
                 typeof(UserSocials),
-                typeof(StyleBrands)
+                typeof(StyleBrands),
+                typeof(BrandSizes)
             };
 
             builder.ApplyGlobalFilters<EntityDef>(a => !a.IsDeleted);
@@ -97,6 +98,8 @@ namespace Aps.Apps.CueTheCurves.Api.Data
             builder.Entity<StyleBrands>().ToTable(nameof(StyleBrands));
             builder.Entity<UserStyles>().ToTable(nameof(UserStyles));
             builder.Entity<StyleLikes>().ToTable(nameof(StyleLikes));
+            builder.Entity<Sizes>().ToTable(nameof(Sizes));
+            builder.Entity<BrandSizes>().ToTable(nameof(BrandSizes));
         }
 
         public DbSet<Users> Users { get; set; }
@@ -112,5 +115,7 @@ namespace Aps.Apps.CueTheCurves.Api.Data
         public DbSet<StyleBrands> StyleBrands { get; set; }
         public DbSet<UserStyles> UserStyles { get; set; }
         public DbSet<StyleLikes> StyleLikes { get; set; }
+        public DbSet<Sizes> Sizes { get; set; }
+        public DbSet<BrandSizes> BrandSizes { get; set; }
     }
 }

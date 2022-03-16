@@ -73,6 +73,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 .NewConfig()
                 .Map(dest => dest.Styles, src => src.StyleBrands.Select(a => a.Style).ToList())
                 .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User).Where(a => a.AccountType == AccountTypes.PUBLIC).ToList())
+                .Map(dest => dest.Sizes, src => src.BrandSizes.Select(a => a.Size.Size).ToList())
                 ;
 
             if (withRemoved)
@@ -99,7 +100,9 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 .NewConfig()
                 .Map(dest => dest.Liked, src => src.BrandLikes.Any(x => x.UserId == user.Id && x.Liked))
                 .Map(dest => dest.Styles, src => src.StyleBrands.Select(a => a.Style).ToList())
-                .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User).Where(a => a.AccountType == AccountTypes.PUBLIC));
+                .Map(dest => dest.Inspos, src => src.UserBrands.Select(a => a.User).Where(a => a.AccountType == AccountTypes.PUBLIC))
+                .Map(dest => dest.Sizes, src => src.BrandSizes.Select(a => a.Size.Size).ToList())
+                ;
 
             var result = brandRepository.Where<Brands>(a => a.Id == brandId)
                 .ProjectToType<BrandDto>()
@@ -172,21 +175,25 @@ namespace Aps.Apps.CueTheCurves.Api.Services
 
         public ResponseBase<Brands> UpdateBrand(Brands brand)
         {
-            if(!brandRepository.Any(a => a.Id == brand.Id))
+            var context = brandRepository.GetDbContext();
+            if (!context.Set<Brands>().Any(a => a.Id == brand.Id))
             {
                 return ResponseBase<Brands>.Failure(ResponseStatus.NOT_FOUND);
             }
 
-            var preBrand = brandRepository.Where<Brands>(a => a.Id == brand.Id)
-                .Include(a => a.StyleBrands).FirstOrDefault();
+            var preBrand = context.Set<Brands>().Where(a => a.Id == brand.Id)
+                .Include(a => a.StyleBrands)
+                .Include(a => a.BrandSizes)
+                .AsSplitQuery()
+                .FirstOrDefault();
 
             preBrand.Name = string.IsNullOrEmpty(brand.Name) ? preBrand.Name : brand.Name;
-            preBrand.SizeOffered = string.IsNullOrEmpty(brand.SizeOffered) ? preBrand.SizeOffered : brand.SizeOffered;
             preBrand.Thumbnail = string.IsNullOrEmpty(brand.Thumbnail) ? preBrand.Thumbnail : brand.Thumbnail;
-            preBrand.Photos = brand.Photos is null ? preBrand.Photos : brand.Photos;
-            preBrand.StyleBrands = brand.StyleBrands is null ? preBrand.StyleBrands : brand.StyleBrands;
+            preBrand.Photos = brand.Photos is null || brand.Photos.Count == 0 ? preBrand.Photos : brand.Photos;
+            preBrand.StyleBrands = brand.StyleBrands is null || brand.StyleBrands.Count == 0 ? preBrand.StyleBrands : brand.StyleBrands;
+            preBrand.BrandUrl = string.IsNullOrEmpty(brand.BrandUrl) ? preBrand.BrandUrl : brand.BrandUrl;
+            preBrand.BrandSizes = brand.BrandSizes is null || brand.BrandSizes.Count == 0 ? preBrand.BrandSizes : brand.BrandSizes;
 
-            var context = brandRepository.GetDbContext();
             context.Set<Brands>().Update(preBrand);
             context.SaveChanges();
             return ResponseBase<Brands>.Success(preBrand);

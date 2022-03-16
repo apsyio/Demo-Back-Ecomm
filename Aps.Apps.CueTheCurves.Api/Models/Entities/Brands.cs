@@ -10,14 +10,15 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Entities
     {
         public string Name { get; set; }
         public string Thumbnail { get; set; }
-        public string SizeOffered { get; set; }
         public int LikesCount { get; set; }
         public Dictionary<string, List<string>> Photos { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public string BrandUrl { get; set; }
 
         public ICollection<UserBrands> UserBrands { get; set; }
         public ICollection<BrandLikes> BrandLikes { get; set; }
         public ICollection<Posts> Posts { get; set; }
         public ICollection<StyleBrands> StyleBrands { get; set; }
+        public ICollection<BrandSizes> BrandSizes { get; set; }
     }
 }

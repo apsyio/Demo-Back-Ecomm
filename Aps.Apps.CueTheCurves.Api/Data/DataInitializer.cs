@@ -177,7 +177,6 @@ namespace Aps.Apps.CueTheCurves.Api.Data
                 result.Add(new Brands
                 {
                     Name = brandNames[i],
-                    SizeOffered = brandSizes[i],
                     StyleBrands = GetStyles(styles, brandStyles[brandNames[i]])
                 });
             }

@@ -85,6 +85,7 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 .AddTypeExtension<StyleMutations>()
                 .AddTypeExtension<BrandMutations>()
                 .AddTypeExtension<ClosetMutations>()
+                .AddTypeExtension<SizeMutations>()
                 .AddFiltering()
                 .AddSorting()
                 .AddProjections()
@@ -101,6 +102,8 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
             services.AddScoped<IPostService, PostService>();
             services.AddScoped<IClosetRepository, ClosetRepository>();
             services.AddScoped<IClosetService, ClosetService>();
+            services.AddScoped<ISizeRepository, SizeRepository>();
+            services.AddScoped<ISizeService, SizeService>();
         }
 
         private static List<Type> GetEntitiesTypes()

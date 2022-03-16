@@ -14,7 +14,8 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Entities
         public int? StyleId { get; set; }
         public Styles Style { get; set; }
         public PostTypes PostType { get; set; }
-        public string SizeOffered { get; set; }
+        public int? SizeId { get; set; }
+        public Sizes Size { get; set; }
 
         public ICollection<PostLikes> PostLikes { get; set; }
     }

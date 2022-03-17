@@ -12,8 +12,8 @@ namespace Aps.Apps.CueTheCurves.Api.Data
         internal static void Initialize(DataContext context, bool v)
         {
             context.Database.Migrate();
-            AddStyles(context);
-            AddBrands(context);
+            //AddStyles(context);
+            //AddBrands(context);
         }
 
         private static void AddBrands(DataContext context)

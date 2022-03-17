@@ -13,9 +13,7 @@ namespace Aps.Apps.CueTheCurves.Api.Models.Entities
         public string Phone { get; set; }
         public string AvatarUrl { get; set; }
         public string Bio { get; set; }
-        [GraphQLIgnore]
         public bool IsSelected { get; set; }
-        [GraphQLIgnore]
         public bool IsAdmin { get; set; }
         public bool IsActive { get; set; } = true;
 

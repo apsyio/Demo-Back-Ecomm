@@ -9,5 +9,6 @@ namespace Aps.Apps.CueTheCurves.Api.Services.Contracts
     {
         ResponseBase DeactiveSize(int sizeId);
         ResponseBase ActivateSize(int sizeId);
+        ListResponseBase<Sizes> GetSizes();
     }
 }

@@ -79,6 +79,7 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 .AddTypeExtension<StyleQueries>()
                 .AddTypeExtension<BrandQueries>()
                 .AddTypeExtension<PostQueries>()
+                .AddTypeExtension<SizeQueries>()
                 .AddMutationType<MutationType>()
                 .AddTypeExtension<UserMutations>()
                 .AddTypeExtension<PostMutations>()

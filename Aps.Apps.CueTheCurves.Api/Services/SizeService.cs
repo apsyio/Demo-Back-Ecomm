@@ -59,5 +59,10 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             Update(size);
             return ResponseBase.Success();
         }
+
+        public ListResponseBase<Sizes> GetSizes()
+        {
+            return ListResponseBase<Sizes>.Success(sizeRepository.GetDbSet());
+        }
     }
 }

@@ -74,10 +74,25 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 .Map(dest => dest.Brands, src => src.StyleBrands.Select(a => a.Brand))
                 ;
 
-            var result = styleRepository.Where<Styles>(a => a.Id == styleId)
+            StyleDto style;
+
+            if (user.IsAdmin)
+            {
+                style = styleRepository.GetDbSet()
+                    .IgnoreQueryFilters().Where(a => a.Id == styleId)
                 .ProjectToType<StyleDto>()
                 .FirstOrDefault();
-            return ResponseBase<StyleDto>.Success(result);
+            }
+            else
+            {
+                style = styleRepository.Where<Styles>(a => a.Id == styleId)
+                .ProjectToType<StyleDto>()
+                .FirstOrDefault();
+            }
+
+            if(style is null) return ResponseBase<StyleDto>.Failure(ResponseStatus.NOT_FOUND);
+
+            return ResponseBase<StyleDto>.Success(style);
         }
 
         public ListResponseBase<Styles> GetStyles(Users user = null, bool isRemoved = false)

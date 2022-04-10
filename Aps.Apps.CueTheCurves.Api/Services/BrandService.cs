@@ -104,13 +104,24 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 .Map(dest => dest.Sizes, src => src.BrandSizes.Select(a => a.Size.Size).ToList())
                 ;
 
-            var result = brandRepository.Where<Brands>(a => a.Id == brandId)
-                .ProjectToType<BrandDto>()
-                .FirstOrDefault()
-                ;
+            BrandDto brand;
 
-            if (result is null) return ResponseBase<BrandDto>.Failure(ResponseStatus.NOT_FOUND);
-            return ResponseBase<BrandDto>.Success(result);
+            if (user.IsAdmin)
+            {
+                brand = brandRepository.GetDbSet().IgnoreQueryFilters()
+                    .Where(a => a.Id == brandId)
+                                .ProjectToType<BrandDto>()
+                                .FirstOrDefault();
+            }
+            else
+            {
+                brand = brandRepository.Where<Brands>(a => a.Id == brandId)
+                .ProjectToType<BrandDto>()
+                .FirstOrDefault();
+            }
+
+            if (brand is null) return ResponseBase<BrandDto>.Failure(ResponseStatus.NOT_FOUND);
+            return ResponseBase<BrandDto>.Success(brand);
         }
 
         public ListResponseBase<Brands> GetBrands(List<int> brandIds = null)

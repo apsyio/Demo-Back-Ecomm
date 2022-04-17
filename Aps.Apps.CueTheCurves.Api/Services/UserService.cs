@@ -88,13 +88,22 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 userBrands = userRepo.Where<UserBrands>(a => a.UserId == user.Id)
                     .Select(a => a.BrandId).ToList();
             }
-            var users = userRepo.GetDbSet().Where(a => !a.IsDeleted && a.AccountType == AccountTypes.PUBLIC);
+            var users = userRepo.GetDbSet().AsQueryable();
             if (isCommon)
             {
                 users = users.Where(a => user.UserStyles.Any(x => userStyles.Any(z => z == x.StyleId))
                     || user.UserBrands.Any(x => userBrands.Any(z => z == x.BrandId)));
             }
             if (isRandom) users = users.OrderBy(a => Guid.NewGuid());
+            if (user.IsAdmin)
+            {
+                users = users
+                    .Where(a => a.AccountType == AccountTypes.PUBLIC || a.AccountType == AccountTypes.PRIVATE);
+            }
+            else
+            {
+                users = users.Where(a => a.AccountType == AccountTypes.PUBLIC);
+            }
 
             return ListResponseBase<Users>.Success(users);
         }

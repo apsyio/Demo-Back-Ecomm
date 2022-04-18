@@ -7,11 +7,11 @@
 	<ItemGroup>
 		<PackageReference Include="Apsy.Common.Api.Auth" Version="4.1.2" />
 		<PackageReference Include="GraphQL.Server.Ui.Altair" Version="5.0.2" />
-		<PackageReference Include="HotChocolate.Abstractions" Version="12.4.1" />
-		<PackageReference Include="HotChocolate.AspNetCore" Version="12.4.1" />
-		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.4.1" />
-		<PackageReference Include="HotChocolate.Data" Version="12.4.1" />
-		<PackageReference Include="HotChocolate.Types" Version="12.4.1" />
+		<PackageReference Include="HotChocolate.Abstractions" Version="12.7.0" />
+		<PackageReference Include="HotChocolate.AspNetCore" Version="12.7.0" />
+		<PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="12.7.0" />
+		<PackageReference Include="HotChocolate.Data" Version="12.7.0" />
+		<PackageReference Include="HotChocolate.Types" Version="12.7.0" />
 		<PackageReference Include="Mapster" Version="7.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
@@ -26,10 +26,9 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Appstagram.Base" Version="1.0.1" />
-    <PackageReference Include="Appstagram.Social" Version="1.0.1" />
-    <PackageReference Include="Aps.Appstagram.Taggable" Version="1.0.1" />
-    <PackageReference Include="Apstagram.Auth" Version="1.0.1" />
+    <PackageReference Include="Appstagram.Base" Version="1.0.4" />
+    <PackageReference Include="Appstagram.Social" Version="1.0.4" />
+    <PackageReference Include="Apstagram.Auth" Version="1.0.4" />
   </ItemGroup>
 
 </Project>

@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging.Debug;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -73,6 +74,7 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 .UseLoggerFactory(new LoggerFactory(new[] { new DebugLoggerProvider() }))
                     .EnableSensitiveDataLogging());
 
+            Debug.Print("Start Register GraphQL");
             services.AddGraphQLServer()
                 .AddQueryType<QueryType>()
                 .AddTypeExtension<UserQueries>()
@@ -92,6 +94,8 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 .AddProjections()
                 .AddAuthorization()
                 .AddTypes(GetEntitiesTypes().ToArray());
+
+            Debug.Print("End Register GraphQL");
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();

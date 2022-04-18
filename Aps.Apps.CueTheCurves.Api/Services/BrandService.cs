@@ -29,7 +29,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
 
         public override ResponseBase<Brands> Add(Brands entity)
         {
-            if(brandRepository.Any(a => a.Name == entity.Name))
+            if(brandRepository.Any(a => a.Name.ToLower() == entity.Name.ToLower()))
             {
                 return ResponseBase<Brands>.Failure(ResponseStatus.ALREADY_EXIST);
             }

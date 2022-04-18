@@ -145,6 +145,9 @@ namespace Aps.Apps.CueTheCurves.Api.Services
 
         public override ResponseBase<Users> Update(UserInput input)
         {
+            var preUser = userRepo.GetById(input.Id);
+            var accountType = input.AccountType ?? preUser.AccountType;
+
             if(input.Socials != null && input.Socials.Count > 0)
             {
                 var preSocials = userRepo.GetDbSet<UserSocials>().Where(a => a.UserId == input.Id);
@@ -153,7 +156,8 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 socials.ForEach(a => a.UserId = input.Id ?? 0);
                 userRepo.AddRange(socials);
             }
-            return base.Update(input);
+            var result = base.Update(input);
+            return result;
         }
 
         public ResponseBase<StatDto> GetAppStats(Users user)

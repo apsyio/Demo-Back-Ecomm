@@ -55,8 +55,8 @@ namespace Aps.Apps.CueTheCurves.Api.GraphQL.Mutations
 
             TypeAdapterConfig<BrandInput, Brands>
                 .NewConfig()
-                .Map(dest => dest.StyleBrands, src => src.Styles.Select(a => new StyleBrands { StyleId = a }))
-                .Map(dest => dest.BrandSizes, src => src.Sizes.Select(a => new BrandSizes { SizeId = a }));
+                .Map(dest => dest.StyleBrands, src => src.Styles == null ? null : src.Styles.Select(a => new StyleBrands { StyleId = a }))
+                .Map(dest => dest.BrandSizes, src => src.Sizes == null ? null : src.Sizes.Select(a => new BrandSizes { SizeId = a }));
 
             return brandService.Add(input.Adapt<Brands>());
         }

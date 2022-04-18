@@ -28,7 +28,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
 
         public override ResponseBase<Styles> Add(Styles entity)
         {
-            if(styleRepository.Any(a => a.Name == entity.Name))
+            if(styleRepository.Any(a => a.Name.ToLower() == entity.Name.ToLower()))
             {
                 return ResponseBase<Styles>.Failure(ResponseStatus.ALREADY_EXIST);
             }

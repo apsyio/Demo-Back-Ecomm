@@ -93,7 +93,12 @@ namespace Aps.Apps.CueTheCurves.Api.Extensions
                 .AddSorting()
                 .AddProjections()
                 .AddAuthorization()
-                .AddTypes(GetEntitiesTypes().ToArray());
+                .AddTypes(GetEntitiesTypes().ToArray())
+                .SetPagingOptions(new HotChocolate.Types.Pagination.PagingOptions
+                {
+                    MaxPageSize = 1000
+                })
+                ;
 
             Debug.Print("End Register GraphQL");
 

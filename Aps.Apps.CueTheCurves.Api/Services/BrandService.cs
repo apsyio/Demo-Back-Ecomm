@@ -179,7 +179,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             {
                 var brand = brandRepository.GetById(brandId);
                 brand.LikesCount = liked ? brand.LikesCount + 1 : brand.LikesCount - 1;
-                Update(brand);
+                brandRepository.Update(brand);
             }
             return ResponseBase.Success();
         }

@@ -61,7 +61,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 return ResponseBase.Failure(ResponseStatus.NOT_FOUND);
             }
             style.IsDeleted = true;
-            Update(style);
+            styleRepository.Update(style);
             return ResponseBase.Success();
         }
 

@@ -155,6 +155,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
                 var socials = input.Socials.AsQueryable().ProjectToType<UserSocials>().ToList();
                 socials.ForEach(a => a.UserId = input.Id ?? 0);
                 userRepo.AddRange(socials);
+                input.Socials = null;
             }
             var result = base.Update(input);
             return result;

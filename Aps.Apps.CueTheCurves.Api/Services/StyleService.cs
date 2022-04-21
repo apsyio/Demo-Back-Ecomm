@@ -143,7 +143,7 @@ namespace Aps.Apps.CueTheCurves.Api.Services
             {
                 var style = styleRepository.GetById(styleId);
                 style.LikesCount = liked ? style.LikesCount+1 : style.LikesCount-1;
-                Update(style);
+                styleRepository.Update(style);
             }
             return ResponseBase.Success();
         }
